@@ -3,8 +3,8 @@ import { Router } from 'preact-router';
 
 import Header from './header';
 import Home from 'src/routes/home';
-import Profile from 'src/routes/profile';
-import { API_KEY } from 'src/service/Api';
+import Meetups from 'src/routes/meetups';
+
 // import Home from 'async!./home';
 // import Profile from 'async!./profile';
 
@@ -22,9 +22,8 @@ export default class App extends Component {
 			<div id="app">
 				<Header />
 				<Router onChange={this.handleRoute}>
-					<Home path="/" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
+					<Home path="/map/" />
+					<Meetups path="/meetups/" />
 				</Router>
 			</div>
 		);
