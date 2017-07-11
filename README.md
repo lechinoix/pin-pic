@@ -16,3 +16,8 @@ Prod mode:
 ```
 preact build
 ```
+
+Current state of application :
+
+![image](https://user-images.githubusercontent.com/10167015/28067752-d4392fc2-6642-11e7-84a8-945ac3179038.png)
+
