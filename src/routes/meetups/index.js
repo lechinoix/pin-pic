@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import style from './style';
 import { fetchMeetups } from 'src/service/Api';
+import mdl from 'material-design-lite/material';
+import { Button, List, ListItem } from 'preact-mdl';
 
 export default class Meetups extends Component {
 	constructor(props) {
@@ -17,17 +19,18 @@ export default class Meetups extends Component {
 	render() {
 		return (
 			<div class={style.meetups}>
-				<button onClick={() => this.onFethMeetups()}>
-					Fetch next Meetups
-				</button>
-				{
-					this.state.meetups.map(({name}) =>(
-						<div>
-							<div>{name}</div>
-							<hr />
-						</div>
-					))
-				}
+				<div class={style.meetups__container}>
+					<Button colored raised onClick={() => this.onFethMeetups()}>
+						Fetch next Meetups
+					</Button>
+					<List>
+					{
+						this.state.meetups.map(({name}) => (
+							<ListItem>{name}</ListItem>
+						))
+					}
+					</List>
+				</div>
 			</div>
 		);
 	}
