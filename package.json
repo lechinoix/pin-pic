@@ -28,6 +28,7 @@
     "preact": "^8.1.0",
     "preact-compat": "^3.16.0",
     "preact-mdl": "^2.2.1",
+    "preact-redux": "^2.0.2",
     "preact-router": "^2.5.2",
     "react-async-script-loader": "^0.3.0"
   }
