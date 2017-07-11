@@ -33,7 +33,6 @@ class SimpleMapPage extends Component {
   render() {
     return (
       <Map
-        style={{ width: '80%', height: '50%' }}
         google={this.props.google}
         zoom={13}
         center={{
