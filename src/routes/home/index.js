@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import Maps from 'src/components/maps';
+import mdl from 'material-design-lite/material';
 import { Button, Icon } from 'preact-mdl';
 
 export default class Home extends Component {
@@ -10,6 +11,11 @@ export default class Home extends Component {
 				minHeight: '100%',
 				width: '100%',
 			},
+			img: {
+				position: 'absolute',
+				width: '200px',
+				zIndex: 1,
+			},
 			button: {
 				position: 'fixed',
 				bottom: '20px',
@@ -19,7 +25,7 @@ export default class Home extends Component {
 		return (
 			<div style={styles.container}>
 				{this.props.pictureUrl ?
-					<img src={this.props.pictureUrl} /> :
+					<img style={styles.img} src={this.props.pictureUrl} /> :
 					null}
 				<Maps />
 				<Button
