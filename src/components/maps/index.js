@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import { GOOGLE_API_KEY } from 'src/service/Api';
+import * as firebase from 'firebase';
 
 import Map, { GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
@@ -10,25 +11,41 @@ class SimpleMapPage extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      marker: {},
-    }
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.pictureUrl) this.placePinOnMap(nextProps.pictureUrl);
+      pins: [],
+    };
   }
 
-  placePinOnMap = (pictureUrl) => {
+  componentWillMount() {
+    const pinsRef = firebase.database().ref('/pins');
+    pinsRef.on('value', (snapshot) => {
+      this.setState({
+        ...this.state,
+        pins: [
+          ...this.state.pins,
+          ...snapshot.val(),
+        ]
+      });
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pictureUrl) this.addPinOnMap(nextProps.pictureUrl);
+  }
+
+  addPinOnMap = (picture) => {
     navigator.geolocation.getCurrentPosition((pos) => {
       this.setState({
         ...this.state,
-        marker: {
-          pos: {
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
+        pins: [
+          ...this.state.pins,
+          {
+            position: {
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude,
+            },
+            picture,
           },
-          pictureUrl,
-        }
+        ]
       });
     }, (err) => {
       console.log(err);
@@ -54,7 +71,7 @@ class SimpleMapPage extends Component {
   };
 
   render() {
-    const marker = this.state.marker;
+    const { pins } = this.state;
     return (
       <Map
         google={this.props.google}
@@ -64,13 +81,13 @@ class SimpleMapPage extends Component {
           lng: 2.3174882,
         }}
       >
-        {marker.hasOwnProperty('pos') ?
+        {pins.map(pin => (
           <Marker
             onClick={this.onMarkerClick}
-            img={marker.pictureUrl}
-            position={{ lat: marker.pos.latitude, lng: marker.pos.longitude }}
-          /> :
-          null}
+            img={pin.picture}
+            position={{ lat: pin.position.latitude, lng: pin.position.longitude }}
+          />
+        ))}
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}>
