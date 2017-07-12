@@ -42,14 +42,17 @@ class SimpleMapPage extends Component {
       >
         <Marker
           onClick={this.onMarkerClick}
-          name={'PWA Paris'}
-          position={{lat: 48.8827176, lng: 2.3202777}}
+          img={this.props.pictureUrl}
+          position={{ lat: 48.8827176, lng: 2.3202777 }}
         />
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}>
             <div>
-              <h1>{this.state.selectedPlace.name}</h1>
+              <img
+                style={{ maxWidth: '150px' }}
+                src={this.state.selectedPlace.img}
+              />
             </div>
         </InfoWindow>
       </Map>

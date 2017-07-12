@@ -24,10 +24,7 @@ export default class Home extends Component {
 		}
 		return (
 			<div style={styles.container}>
-				{this.props.pictureUrl ?
-					<img style={styles.img} src={this.props.pictureUrl} /> :
-					null}
-				<Maps />
+				<Maps pictureUrl={this.props.pictureUrl} />
 				<Button
 					onClick={this.props.openModalVideo}
 					fab
