@@ -10,8 +10,31 @@ class SimpleMapPage extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
+      marker: {},
     }
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pictureUrl) this.placePinOnMap(nextProps.pictureUrl);
+  }
+
+  placePinOnMap = (pictureUrl) => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      this.setState({
+        ...this.state,
+        marker: {
+          pos: {
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          },
+          pictureUrl,
+        }
+      });
+    }, (err) => {
+      console.log(err);
+    })
+
+  }
 
   onMarkerClick = (props, marker, e) => {
     this.setState({
@@ -31,6 +54,7 @@ class SimpleMapPage extends Component {
   };
 
   render() {
+    const marker = this.state.marker;
     return (
       <Map
         google={this.props.google}
@@ -40,11 +64,13 @@ class SimpleMapPage extends Component {
           lng: 2.3174882,
         }}
       >
-        <Marker
-          onClick={this.onMarkerClick}
-          img={this.props.pictureUrl}
-          position={{ lat: 48.8827176, lng: 2.3202777 }}
-        />
+        {marker.hasOwnProperty('pos') ?
+          <Marker
+            onClick={this.onMarkerClick}
+            img={marker.pictureUrl}
+            position={{ lat: marker.pos.latitude, lng: marker.pos.longitude }}
+          /> :
+          null}
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}>
