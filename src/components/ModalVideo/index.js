@@ -1,10 +1,12 @@
 import { h, Component } from 'preact';
+import mdl from 'material-design-lite/material';
 import { Button, Icon } from 'preact-mdl';
 import style from './style';
 
 export default class ModalVideo extends Component {
   constructor(props) {
     super(props);
+    this.video = null;
     this.state = {
       mediaStream: null,
     }
@@ -25,7 +27,6 @@ export default class ModalVideo extends Component {
 	}
 
   onTakePicture = () => {
-    this.video.pause();
     const mediaStreamTrack = this.state.mediaStream.getVideoTracks()[0];
     const imageCapture = new ImageCapture(mediaStreamTrack);
     imageCapture.takePhoto()
