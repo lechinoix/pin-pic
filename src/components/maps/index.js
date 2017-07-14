@@ -11,7 +11,7 @@ class SimpleMapPage extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      pins: [],
+      pins: []
     };
   }
 
@@ -22,7 +22,7 @@ class SimpleMapPage extends Component {
         ...this.state,
         pins: [
           ...this.state.pins,
-          ...snapshot.val(),
+          ...snapshot.val()
         ]
       });
     });
@@ -39,21 +39,21 @@ class SimpleMapPage extends Component {
       const newPin = {
         position: {
           latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
+          longitude: pos.coords.longitude
         },
-        picture,
+        picture
       };
       this.setState({
         ...this.state,
         pins: [
           ...this.state.pins,
-          newPin,
+          newPin
         ]
       });
       pinsRef.push(newPin);
     }, (err) => {
       console.log(err);
-    })
+    });
 
   }
 
@@ -70,7 +70,7 @@ class SimpleMapPage extends Component {
       this.setState({
         showingInfoWindow: false,
         activeMarker: null
-      })
+      });
     }
   };
 
@@ -82,7 +82,7 @@ class SimpleMapPage extends Component {
         zoom={13}
         center={{
           lat: 48.8684921,
-          lng: 2.3174882,
+          lng: 2.3174882
         }}
       >
         {pins.map(pin => (
@@ -94,13 +94,14 @@ class SimpleMapPage extends Component {
         ))}
         <InfoWindow
           marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}>
-            <div>
-              <img
-                style={{ maxWidth: '150px' }}
-                src={this.state.selectedPlace.img}
-              />
-            </div>
+          visible={this.state.showingInfoWindow}
+        >
+          <div>
+            <img
+              style={{ maxWidth: '150px' }}
+              src={this.state.selectedPlace.img}
+            />
+          </div>
         </InfoWindow>
       </Map>
     );
@@ -108,5 +109,5 @@ class SimpleMapPage extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: GOOGLE_API_KEY,
+  apiKey: GOOGLE_API_KEY
 })(SimpleMapPage);

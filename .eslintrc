@@ -1,0 +1,13 @@
+{
+  "extends": ["eslint-config-synacor"],
+  "globals": {
+    "ImageCapture": true
+  },
+  "rules": {
+    "strict": [2, "global"],
+    "indent": [2, 2, {"SwitchCase": 1}],
+    "react/jsx-indent-props": [2, 2],
+    "react/sort-comp": 0
+  },
+  "settings": {}
+}

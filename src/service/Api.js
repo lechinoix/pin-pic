@@ -7,5 +7,5 @@ const CORS_BRIDGE = 'http://cors-anywhere.herokuapp.com';
 
 export const fetchMeetups = () => (
   fetch(`${CORS_BRIDGE}/${MEETUP_BASE_URL}/find/events?key=${MEETUP_API_KEY}&sign=true&lat=48.8684921&long=2.3174882`)
-  .then(r => r.json())
+    .then(r => r.json())
 );

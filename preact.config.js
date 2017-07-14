@@ -9,5 +9,5 @@ const path = require('path');
  * @param {WebpackConfigHelpers} helpers - object with useful helpers when working with config.
  **/
 export default function (config, env, helpers) {
-	config.resolve.alias['src'] = path.resolve('./src');
+  config.resolve.alias.src = path.resolve('./src');
 }
