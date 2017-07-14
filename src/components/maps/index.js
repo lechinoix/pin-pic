@@ -33,20 +33,24 @@ class SimpleMapPage extends Component {
   }
 
   addPinOnMap = (picture) => {
+    const pinsRef = firebase.database().ref('/pins');
+
     navigator.geolocation.getCurrentPosition((pos) => {
+      const newPin = {
+        position: {
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        },
+        picture,
+      };
       this.setState({
         ...this.state,
         pins: [
           ...this.state.pins,
-          {
-            position: {
-              latitude: pos.coords.latitude,
-              longitude: pos.coords.longitude,
-            },
-            picture,
-          },
+          newPin,
         ]
       });
+      pinsRef.push(newPin);
     }, (err) => {
       console.log(err);
     })
