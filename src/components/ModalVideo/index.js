@@ -31,7 +31,9 @@ export default class ModalVideo extends Component {
     imageCapture.takePhoto()
       .then(blob => {
         mediaStreamTrack.stop();
-        this.props.onTakePicture(URL.createObjectURL(blob));
+        const reader = new window.FileReader();
+        reader.onloadend = this.props.onTakePicture;
+        reader.readAsDataURL(blob);
       });
   }
 

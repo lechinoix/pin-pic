@@ -11,25 +11,19 @@ class SimpleMapPage extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      pins: []
+      pins: {}
     };
   }
 
   componentWillMount() {
     const pinsRef = firebase.database().ref('/pins');
     pinsRef.on('value', (snapshot) => {
-      this.setState({
-        ...this.state,
-        pins: [
-          ...this.state.pins,
-          ...snapshot.val()
-        ]
-      });
+      this.setState({ pins: snapshot.val() });
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.pictureUrl) this.addPinOnMap(nextProps.pictureUrl);
+    if (nextProps.picture) this.addPinOnMap(nextProps.picture);
   }
 
   addPinOnMap = (picture) => {
@@ -43,14 +37,13 @@ class SimpleMapPage extends Component {
         },
         picture
       };
+      const pinId = pinsRef.push(newPin);
       this.setState({
-        ...this.state,
-        pins: [
+        pins: {
           ...this.state.pins,
-          newPin
-        ]
+          [pinId]: newPin
+        }
       });
-      pinsRef.push(newPin);
     }, (err) => {
       console.log(err);
     });
@@ -85,7 +78,7 @@ class SimpleMapPage extends Component {
           lng: 2.3174882
         }}
       >
-        {pins.map(pin => (
+        {Object.values(pins).map(pin => (
           <Marker
             onClick={this.onMarkerClick}
             img={pin.picture}

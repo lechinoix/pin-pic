@@ -14,7 +14,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       isModalOpened: false,
-      pictureUrl: ''
+      picture: ''
     };
   }
 
@@ -30,10 +30,10 @@ export default class App extends Component {
     this.setState({ isModalOpened: true });
   };
 
-  onTakePicture = (pictureUrl) => {
+  onTakePicture = (reader) => {
     this.setState({
       isModalOpened: false,
-      pictureUrl
+      picture: reader.target.result
     });
   }
 
@@ -50,7 +50,7 @@ export default class App extends Component {
         <Router onChange={this.handleRoute}>
           <Home
             openModalVideo={this.openModalVideo}
-            pictureUrl={this.state.pictureUrl}
+            picture={this.state.picture}
             path="/map/"
           />
           <Meetups path="/meetups/" />
