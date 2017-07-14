@@ -2,8 +2,9 @@ import { h, Component } from 'preact';
 import { GOOGLE_API_KEY } from 'src/service/Api';
 import * as firebase from 'firebase';
 
-import Map, { GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
+import Map, { GoogleApiWrapper as googleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
+@googleApiWrapper({ apiKey: GOOGLE_API_KEY })
 class SimpleMapPage extends Component {
   constructor(props){
     super(props);
@@ -44,13 +45,10 @@ class SimpleMapPage extends Component {
           [pinId]: newPin
         }
       });
-    }, (err) => {
-      console.log(err);
     });
-
   }
 
-  onMarkerClick = (props, marker, e) => {
+  onMarkerClick = (props, marker) => {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -58,7 +56,7 @@ class SimpleMapPage extends Component {
     });
   };
 
-  onMapClicked = (props) => {
+  onMapClicked = () => {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -83,6 +81,7 @@ class SimpleMapPage extends Component {
             onClick={this.onMarkerClick}
             img={pin.picture}
             position={{ lat: pin.position.latitude, lng: pin.position.longitude }}
+            style={{ height: '200px' }}
           />
         ))}
         <InfoWindow
@@ -101,6 +100,4 @@ class SimpleMapPage extends Component {
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: GOOGLE_API_KEY
-})(SimpleMapPage);
+export default SimpleMapPage;
