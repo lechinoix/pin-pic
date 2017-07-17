@@ -1,6 +1,8 @@
-## Meetup on map
+## PinPic
 
-This project will displays the next Meetup events on a map and permit to consult these offline
+This project displays pictures on a map where you take them.
+
+https://pinpic-49e36.firebaseapp.com/map
 
 ### Start the project
 
@@ -14,7 +16,7 @@ preact watch
 
 Prod mode:
 ```
-preact build
+npm run serve
 ```
 
 ### Construct the app step by step
