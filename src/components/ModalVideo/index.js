@@ -14,6 +14,24 @@ export default class ModalVideo extends Component {
     if (nextProps.isOpened) setTimeout(this.startMedia, 300);
   }
 
+  componentDidMount() {
+    document.onkeydown = (e) => {
+      if (e.key === 'Escape') {
+        this.props.closeModalVideo();
+        this.stopRecording();
+      }
+    };
+  }
+
+  stopRecording = () => {
+    const mediaStreamTrack = this.state.mediaStream.getVideoTracks()[0];
+    mediaStreamTrack.stop();
+  }
+
+  componentWillUnmount() {
+    document.onkeydown = null;
+  }
+
   startMedia = () => {
     navigator.mediaDevices.getUserMedia({ video: true })
       .then((mediaStream) => {
@@ -30,7 +48,7 @@ export default class ModalVideo extends Component {
     const imageCapture = new ImageCapture(mediaStreamTrack);
     imageCapture.takePhoto()
       .then(blob => {
-        mediaStreamTrack.stop();
+        this.stopRecording();
         const reader = new window.FileReader();
         reader.onloadend = this.props.onTakePicture;
         reader.readAsDataURL(blob);

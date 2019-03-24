@@ -30,6 +30,10 @@ export default class App extends Component {
     this.setState({ isModalOpened: true });
   };
 
+  closeModalVideo = () => {
+    this.setState({ isModalOpened: false });
+  };
+
   onTakePicture = (reader) => {
     this.setState({
       isModalOpened: false,
@@ -45,6 +49,7 @@ export default class App extends Component {
         <ModalVideo
           isOpened={this.state.isModalOpened}
           onTakePicture={this.onTakePicture}
+          closeModalVideo={this.closeModalVideo}
         />
         <Header />
         <Router onChange={this.handleRoute}>
