@@ -23,6 +23,31 @@ class SimpleMapPage extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.picture) this.addPinOnMap(nextProps.picture);
+  }
+
+  addPinOnMap = (picture) => {
+    const pinsRef = firebase.database().ref('/pins');
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const newPin = {
+        position: {
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
+        },
+        picture
+      };
+      const pinId = pinsRef.push(newPin);
+      this.setState({
+        pins: {
+          ...this.state.pins,
+          [pinId]: newPin
+        }
+      });
+    });
+  }
+
   onMarkerClick = (props, marker) => {
     this.setState({
       selectedPlace: props,
