@@ -10,17 +10,36 @@ export default class ModalVideo extends Component {
       mediaStream: null
     };
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isOpened) setTimeout(this.startMedia, 300);
+  }
 
   componentDidMount() {
     document.onkeydown = (e) => {
       if (e.key === 'Escape') {
         this.props.closeModalVideo();
+        this.stopRecording();
       }
     };
   }
 
   componentWillUnmount() {
     document.onkeydown = null;
+  }
+
+  stopRecording = () => {
+    const mediaStreamTrack = this.state.mediaStream.getVideoTracks()[0];
+    mediaStreamTrack.stop();
+  }
+
+  startMedia = () => {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((mediaStream) => {
+        this.setState({ mediaStream });
+        this.video.srcObject = mediaStream;
+        this.video.play();
+      })
+      .catch(error => console.error('getUserMedia() error:', error));
   }
 
   render() {
@@ -49,6 +68,10 @@ export default class ModalVideo extends Component {
     };
     return (
       <div style={styles.container}>
+        <video
+          ref={(video) => {this.video = video;}}
+          style={styles.video}
+        />
         <Button
           raised
           colored
