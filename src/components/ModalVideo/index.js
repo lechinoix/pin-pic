@@ -10,49 +10,17 @@ export default class ModalVideo extends Component {
       mediaStream: null
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpened) setTimeout(this.startMedia, 300);
-  }
 
   componentDidMount() {
     document.onkeydown = (e) => {
       if (e.key === 'Escape') {
         this.props.closeModalVideo();
-        this.stopRecording();
       }
     };
   }
 
-  stopRecording = () => {
-    const mediaStreamTrack = this.state.mediaStream.getVideoTracks()[0];
-    mediaStreamTrack.stop();
-  }
-
   componentWillUnmount() {
     document.onkeydown = null;
-  }
-
-  startMedia = () => {
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then((mediaStream) => {
-        this.setState({ mediaStream });
-        // Ref doesn't work anymore
-        this.video.srcObject = mediaStream;
-        this.video.play();
-      })
-      .catch(error => console.error('getUserMedia() error:', error));
-  }
-
-  onTakePicture = () => {
-    const mediaStreamTrack = this.state.mediaStream.getVideoTracks()[0];
-    const imageCapture = new ImageCapture(mediaStreamTrack);
-    imageCapture.takePhoto()
-      .then(blob => {
-        this.stopRecording();
-        const reader = new window.FileReader();
-        reader.onloadend = this.props.onTakePicture;
-        reader.readAsDataURL(blob);
-      });
   }
 
   render() {
@@ -81,16 +49,11 @@ export default class ModalVideo extends Component {
     };
     return (
       <div style={styles.container}>
-        <video
-          ref={(video) => {this.video = video;}}
-          style={styles.video}
-        />
         <Button
           raised
           colored
           fab
           style={styles.button}
-          onClick={this.onTakePicture}
         >
           <Icon icon="camera" />
         </Button>
