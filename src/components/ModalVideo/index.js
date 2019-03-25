@@ -42,6 +42,18 @@ export default class ModalVideo extends Component {
       .catch(error => console.error('getUserMedia() error:', error));
   }
 
+  onTakePicture = () => {
+    const mediaStreamTrack = this.state.mediaStream.getVideoTracks()[0];
+    const imageCapture = new ImageCapture(mediaStreamTrack);
+    imageCapture.takePhoto()
+      .then(blob => {
+        this.stopRecording();
+        const reader = new window.FileReader();
+        reader.onloadend = this.props.onTakePicture;
+        reader.readAsDataURL(blob);
+      });
+  }
+
   render() {
     const styles = {
       container: {
@@ -77,6 +89,7 @@ export default class ModalVideo extends Component {
           colored
           fab
           style={styles.button}
+          onClick={this.onTakePicture}
         >
           <Icon icon="camera" />
         </Button>
