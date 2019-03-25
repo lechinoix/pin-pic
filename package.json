@@ -9,7 +9,7 @@
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
     "build": "preact build --no-prerender",
     "serve": "npm run build && firebase deploy",
-    "dev": "preact watch"
+    "dev": "preact watch -p 8000"
   },
   "keywords": [],
   "author": "",
